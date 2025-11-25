@@ -22,13 +22,13 @@ public class TaskController {
         return taskRepository.findAll();
     }
 
-    @PostMapping("create")
+    @PostMapping("/")
     public ResponseEntity<Void> create(@RequestBody TaskModel taskModel){
         taskRepository.save(taskModel);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/{id}")
     public ResponseEntity<TaskModel> update(@RequestBody TaskModel taskModel, @PathVariable UUID id)
     {
         TaskModel updateTask = taskRepository.findById(id).map(task -> {
