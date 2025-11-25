@@ -1,6 +1,7 @@
 package todo_list.task;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,5 +26,23 @@ public class TaskController {
     public ResponseEntity<Void> create(@RequestBody TaskModel taskModel){
         taskRepository.save(taskModel);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PutMapping("/{id}/update")
+    public ResponseEntity<TaskModel> update(@RequestBody TaskModel taskModel, @PathVariable UUID id)
+    {
+        TaskModel updateTask = taskRepository.findById(id).map(task -> {
+                    task.setDescription(taskModel.getDescription());
+                    task.setTitle(taskModel.getTitle());
+
+            return task;
+                }
+        ).orElse(null);
+
+        if (updateTask == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(taskRepository.save(updateTask));
     }
 }
