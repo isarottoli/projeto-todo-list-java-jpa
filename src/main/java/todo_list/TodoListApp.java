@@ -1,13 +1,13 @@
-package com.mbalem.demo_spring_rev_jpa;
+package todo_list;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoSpringRevJpaApplication {
+public class TodoListApp {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoSpringRevJpaApplication.class, args);
+		SpringApplication.run(TodoListApp.class, args);
 	}
 
 }

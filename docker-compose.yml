@@ -1,0 +1,16 @@
+services:
+  todo_list_mysql:
+    container_name: todo_list_mysql
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=todolist
+      - MYSQL_USER=docker
+      - MYSQL_PASSWORD=Teste123!@#
+      - MYSQL_ROOT_PASSWORD=Teste123!@#
+    ports:
+      - "3306:3306"
+    volumes:
+      - todo_list_mysql_volume:/var/lib/mysql
+
+volumes:
+  todo_list_mysql_volume:
