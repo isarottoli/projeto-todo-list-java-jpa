@@ -1,6 +1,7 @@
 package todo_list.task;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TaskModel> update(@RequestBody TaskModel taskModel, @PathVariable UUID id)
+    public ResponseEntity<TaskModel> updateTask(@RequestBody TaskModel taskModel, @PathVariable UUID id)
     {
         TaskModel updateTask = taskRepository.findById(id).map(task -> {
                     task.setDescription(taskModel.getDescription());
@@ -45,4 +46,36 @@ public class TaskController {
 
         return ResponseEntity.ok(taskRepository.save(updateTask));
     }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<TaskModel> updateStatus(@RequestBody Map<String, TaskStatus> body, @PathVariable UUID id) {
+        TaskModel updateModel = taskRepository.findById(id).map(task -> {
+                    task.setStatus(body.get("status"));
+
+                    return task;
+                }
+        ).orElse(null);
+
+        if (updateModel == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(taskRepository.save(updateModel));
+    }
+
+    @PatchMapping("/{id}/priority")
+    public ResponseEntity<TaskModel> updatePriority(@RequestBody Map<String, TaskPriority> body, @PathVariable UUID id){
+        TaskModel updateModel = taskRepository.findById(id).map(task -> {
+                    task.setPriority(body.get("priority"));
+                    return task;
+                }
+        ).orElse(null);
+
+        if (updateModel == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(taskRepository.save(updateModel));
+    }
+
 }
